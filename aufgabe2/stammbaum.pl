@@ -35,128 +35,128 @@ female(ethel).
 
 female(norah).
 
-married_(thomas,sarah).
-married_(william,ann).
-married_(stephen,beth).
-married_(james,mary).
-married_(steven,rose).
-married_(alexander,norah).
+verheiratet_(thomas,sarah).
+verheiratet_(william,ann).
+verheiratet_(stephen,beth).
+verheiratet_(james,mary).
+verheiratet_(steven,rose).
+verheiratet_(alexander,norah).
 
-parent(thomas,john).
-parent(thomas,william).
-parent(thomas,elizabeth).
-parent(sarah,john).
-parent(sarah,william).
-parent(sarah,elizabeth).
+eltern(thomas,john).
+eltern(thomas,william).
+eltern(thomas,elizabeth).
+eltern(sarah,john).
+eltern(sarah,william).
+eltern(sarah,elizabeth).
 
-parent(william,jack).
-parent(william,stephen).
-parent(william,george).
-parent(william,linda).
-parent(william,james).
-parent(william,richard).
-parent(ann,jack).
-parent(ann,stephen).
-parent(ann,george).
-parent(ann,linda).
-parent(ann,james).
-parent(ann,richard).
+eltern(william,jack).
+eltern(william,stephen).
+eltern(william,george).
+eltern(william,linda).
+eltern(william,james).
+eltern(william,richard).
+eltern(ann,jack).
+eltern(ann,stephen).
+eltern(ann,george).
+eltern(ann,linda).
+eltern(ann,james).
+eltern(ann,richard).
 
-parent(stephen,lisa).
-parent(stephen,phillip).
-parent(stephen,christine).
-parent(fanny,lisa).
-parent(beth,phillip).
-parent(beth,christine).
+eltern(stephen,lisa).
+eltern(stephen,phillip).
+eltern(stephen,christine).
+eltern(fanny,lisa).
+eltern(beth,phillip).
+eltern(beth,christine).
 
-parent(james,edith).
-parent(james,caroline).
-parent(james,steven).
-parent(james,ethel).
-parent(james,horace).
-parent(james,ben).
-parent(mary,edith).
-parent(mary,caroline).
-parent(mary,steven).
-parent(mary,ethel).
-parent(mary,horace).
-parent(mary,ben).
+eltern(james,edith).
+eltern(james,caroline).
+eltern(james,steven).
+eltern(james,ethel).
+eltern(james,horace).
+eltern(james,ben).
+eltern(mary,edith).
+eltern(mary,caroline).
+eltern(mary,steven).
+eltern(mary,ethel).
+eltern(mary,horace).
+eltern(mary,ben).
 
-parent(steven,alexander).
+eltern(steven,alexander).
 
-parent(rose,alexander).
+eltern(rose,alexander).
 
 custom_not(Goal) :- Goal,!, fail.
 custom_not(_).
 
-married(X,Y):-
-	married_(X,Y);
-	married_(Y,X).
+verheiratet(X,Y):-
+	verheiratet_(X,Y);
+	verheiratet_(Y,X).
 
-not_married(X,Y):-
-	not(married(X,Y)).
+not_verheiratet(X,Y):-
+	not(verheiratet(X,Y)).
 	
-father(X,Y):-
-	parent(X,Y),
+vater(X,Y):-
+	eltern(X,Y),
 	male(X).
 	
-mother(X,Y):-
-	parent(X,Y),
+mutter(X,Y):-
+	eltern(X,Y),
 	female(X).
 	
-siblings(X,Y):-
-	father(A,X),
-	father(A,Y),
-	mother(B,X),
-	mother(B,Y),
+geschwister(X,Y):-
+	vater(A,X),
+	vater(A,Y),
+	mutter(B,X),
+	mutter(B,Y),
 	not(X=Y).
 	
-test_siblings(X,Y):-
+test_geschwister(X,Y):-
 	custom_not(X=Y),
-	father(A,X),
-	father(A,Y),
-	mother(B,X),
-	mother(B,Y).
+	vater(A,X),
+	vater(A,Y),
+	mutter(B,X),
+	mutter(B,Y).
 
-brother(X,Y):-
-	siblings(X,Y),
+bruder(X,Y):-
+	geschwister(X,Y),
 	male(Y).
 	
-sister(X,Y):-
-	siblings(X,Y),
+schwester(X,Y):-
+	geschwister(X,Y),
 	female(Y).
 	
-cousins(X,Y):-
-	parent(A,X),
-	parent(B,Y),
-	siblings(A,B).
+cousin(X,Y):-
+	eltern(A,X),
+	eltern(B,Y),
+	geschwister(A,B).
 	
-nephew(X,Y):-
-	parent(A,X),
-	siblings(Y,A),
+neffe(X,Y):-
+	eltern(A,X),
+	geschwister(Y,A),
 	male(X).
 	
-half_sister(X,Y):-
+halb_schwester(X,Y):-
 	female(Y),
-	father(A,X),
-	father(A,Y),
-	mother(B,X),
-	mother(C,Y),
+	vater(A,X),
+	vater(A,Y),
+	mutter(B,X),
+	mutter(C,Y),
 	not(B=C);
 	female(Y),
-	mother(A,X),
-	mother(A,Y),
-	father(B,X),
-	father(C,Y),
+	mutter(A,X),
+	mutter(A,Y),
+	vater(B,X),
+	vater(C,Y),
 	not(B=C).
 	
-aunt(X,Y):-
+tante(X,Y):-
 	female(X),
-	parent(A,Y),
-	siblings(X,A).
+	eltern(A,Y),
+	geschwister(X,A).
 	
-great_aunt(X,Y):-
+gross_tante(X,Y):-
 	female(X),
-	parent(A,Y),
-	parent(B,A),
-	siblings(X,B).
+	eltern(A,Y),
+	eltern(B,A),
+	geschwister(X,B).
