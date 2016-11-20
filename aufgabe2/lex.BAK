@@ -107,7 +107,7 @@ lex(nichte,nichte,n,sg,f).
 lex(nichten,nichte,n,pl,f).
 
 lex(neffe,neffe,n,sg,m).
-lex(neffen,neffe,n,pl,m).
+lex(neffen,neffe,n,ls,m).
 
 lex(stiefkind,stiefkind,n,sg,n).
 lex(stiefkinder,stiefkind,n,pl,n).

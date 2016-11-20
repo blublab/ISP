@@ -46,6 +46,7 @@ frage -->
         
 ergaenz_antwort(Sem,Name) :-
         call(Sem, Name, Res),
+        writeln(Res),
         lex(Artikel,_,a,Num,Gen),
         lex(Nomen,Sem,n,Num,Gen),
         lex(Praep,_,p,Num,Gen),
