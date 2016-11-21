@@ -42,49 +42,49 @@ verheiratet_(james,mary).
 verheiratet_(steven,rose).
 verheiratet_(alexander,norah).
 
-eltern(thomas,john).
-eltern(thomas,william).
-eltern(thomas,elizabeth).
-eltern(sarah,john).
-eltern(sarah,william).
-eltern(sarah,elizabeth).
+eltern(john,thomas).
+eltern(william,thomas).
+eltern(elizabeth,thomas).
+eltern(john,sarah).
+eltern(william,sarah).
+eltern(elizabeth,sarah).
 
-eltern(william,jack).
-eltern(william,stephen).
-eltern(william,george).
-eltern(william,linda).
-eltern(william,james).
-eltern(william,richard).
-eltern(ann,jack).
-eltern(ann,stephen).
-eltern(ann,george).
-eltern(ann,linda).
-eltern(ann,james).
-eltern(ann,richard).
+eltern(jack,william).
+eltern(stephen,william).
+eltern(george,william).
+eltern(linda,william).
+eltern(james,william).
+eltern(richard,william).
+eltern(jack,ann).
+eltern(stephen,ann).
+eltern(george,ann).
+eltern(linda,ann).
+eltern(james,ann).
+eltern(richard,ann).
 
-eltern(stephen,lisa).
-eltern(stephen,phillip).
-eltern(stephen,christine).
-eltern(fanny,lisa).
-eltern(beth,phillip).
-eltern(beth,christine).
+eltern(lisa,stephen).
+eltern(phillip,stephen).
+eltern(christine,stephen).
+eltern(lisa,fanny).
+eltern(phillip,beth).
+eltern(christine,beth).
 
-eltern(james,edith).
-eltern(james,caroline).
-eltern(james,steven).
-eltern(james,ethel).
-eltern(james,horace).
-eltern(james,ben).
-eltern(mary,edith).
-eltern(mary,caroline).
-eltern(mary,steven).
-eltern(mary,ethel).
-eltern(mary,horace).
-eltern(mary,ben).
+eltern(edith,james).
+eltern(caroline,james).
+eltern(steven,james).
+eltern(ethel,james).
+eltern(horace,james).
+eltern(ben,james).
+eltern(edith,mary).
+eltern(caroline,mary).
+eltern(steven,mary).
+eltern(ethel,mary).
+eltern(horace,mary).
+eltern(ben,mary).
 
-eltern(steven,alexander).
+eltern(alexander,steven).
 
-eltern(rose,alexander).
+eltern(alexander,rose).
 
 custom_not(Goal) :- Goal,!, fail.
 custom_not(_).
@@ -105,11 +105,11 @@ ehefrau(X,Y):-
         female(Y).
         
 vater(X,Y):-
-        eltern(Y,X),
+        eltern(X,Y),
         male(Y).
         
 mutter(X,Y):-
-        eltern(Y,X),
+        eltern(X,Y),
         female(Y).
         
 geschwister(X,Y):-
@@ -118,7 +118,7 @@ geschwister(X,Y):-
         mutter(X,B),
         mutter(Y,B),
         not(X=Y).
-        
+
 test_geschwister(X,Y):-
         custom_not(X=Y),
         vater(A,X),
@@ -159,9 +159,7 @@ cousine(X,Y):-
         
 neffe(X,Y):-
         geschwister(X,A),
-        sohn(A,Y)
-        X \= Y,
-        male(X).
+        sohn(A,Y).
         
 halb_schwester(X,Y):-
         female(Y),

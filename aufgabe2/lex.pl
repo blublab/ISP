@@ -43,6 +43,8 @@ lex(mütter,mutter,n,pl,f).
 lex(vater,vater,n,sg,m).
 lex(vaeter,vater,n,pl,m).
 
+lex(eltern,eltern,n,pl,f).
+
 lex(ehefrau,ehefrau,n,sg,f).
 lex(ehefrauen,ehefrau,n,pl,f).
 
@@ -51,6 +53,8 @@ lex(ehemaenner,ehemann,n,pl,m).
 
 lex(kind,kind,n,sg,n).
 lex(kinder,kind,n,pl,n).
+
+lex(geschwister,geschwister,n,pl,f).
 
 lex(tochter,tochter,n,sg,f).
 lex(toechter,tochter,n,pl,f).
@@ -115,40 +119,44 @@ lex(stiefkinder,stiefkind,n,pl,n).
 % === Praeposition ===
 lex(von,_,p,_,_).
 
+% === Konjunktion ===
+lex(und,_,k,_,_).
+
+
 % === Namen ===
-lex(thomas,_,pn,sg,m).
+lex(thomas,_,pn,_,m).
 
-lex(john,_,pn,sg,m).
-lex(william,_,pn,sg,m).
+lex(john,_,pn,_,m).
+lex(william,_,pn,_,m).
 
-lex(jack,_,pn,sg,m).
-lex(stephen,_,pn,sg,m).
-lex(george,_,pn,sg,m).
-lex(james,_,pn,sg,m).
-lex(richard,_,pn,sg,m).
+lex(jack,_,pn,_,m).
+lex(stephen,_,pn,_,m).
+lex(george,_,pn,_,m).
+lex(james,_,pn,_,m).
+lex(richard,_,pn,_,m).
 
-lex(phillip,_,pn,sg,m).
-lex(steven,_,pn,sg,m).
-lex(horace,_,pn,sg,m).
-lex(ben,_,pn,sg,m).
+lex(phillip,_,pn,_,m).
+lex(steven,_,pn,_,m).
+lex(horace,_,pn,_,m).
+lex(ben,_,pn,_,m).
 
-lex(alexander,_,pn,sg,m).
+lex(alexander,_,pn,_,m).
 
-lex(sarah,_,pn,sg,w).
+lex(sarah,_,pn,_,w).
 
-lex(ann,_,pn,sg,w).
-lex(elizabeth,_,pn,sg,w).
+lex(ann,_,pn,_,w).
+lex(elizabeth,_,pn,_,w).
 
-lex(fanny,_,pn,sg,w).
-lex(beth,_,pn,sg,w).
-lex(linda,_,pn,sg,w).
-lex(mary,_,pn,sg,w).
+lex(fanny,_,pn,_,w).
+lex(beth,_,pn,_,w).
+lex(linda,_,pn,_,w).
+lex(mary,_,pn,_,w).
 
-lex(lisa,_,pn,sg,w).
-lex(christine,_,pn,sg,w).
-lex(edith,_,pn,sg,w).
-lex(caroline,_,pn,sg,w).
-lex(rose,_,pn,sg,w).
-lex(ethel,_,pn,sg,w).
+lex(lisa,_,pn,_,w).
+lex(christine,_,pn,_,w).
+lex(edith,_,pn,_,w).
+lex(caroline,_,pn,_,w).
+lex(rose,_,pn,_,w).
+lex(ethel,_,pn,_,w).
 
-lex(norah,_,pn,sg,w).
+lex(norah,_,pn,_,w).
