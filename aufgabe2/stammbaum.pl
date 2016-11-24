@@ -136,7 +136,7 @@ schwester(X,Y):-
         female(Y).
         
 kind(X,Y):-
-        eltern(X,Y).
+        eltern(Y,X).
         
 cousin(X,Y):-
         eltern(A,X),

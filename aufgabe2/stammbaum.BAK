@@ -119,13 +119,6 @@ geschwister(X,Y):-
         mutter(Y,B),
         not(X=Y).
 
-test_geschwister(X,Y):-
-        custom_not(X=Y),
-        vater(A,X),
-        vater(A,Y),
-        mutter(B,X),
-        mutter(B,Y).
-
 sohn(X,Y):-
         eltern(X,Y),
         male(Y).
