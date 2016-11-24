@@ -25,11 +25,9 @@ start :-
 % Ergaenzungsfrage (Wer [Verb] [Artikel] [Nomen] von [Name]?)
 frage -->
         i,
-        vp(SemVP, Num),
-        pp(SemNP, Num),
+        vp(SemVP, _),
         [?],
         {
-        SemVP = [_,_,SemNP],
         SemS =.. SemVP,
         solve_ergaenz(SemS)}.
         
@@ -38,16 +36,15 @@ frage -->
         vp(_, Num),
         np(SemNP1,Num),
         np(SemNP2,Num),
-        pp(SemPP,Num),
         [?],
         {
-        SemS = [SemNP2,SemNP1,SemPP],
+        SemS = [SemNP2,SemNP1],
         entsch_antwort(SemS)
         }.
         
 solve_ergaenz(SemS) :-
-        arg(1,SemS,Funk),
-        arg(2,SemS,Name),
+        arg(1,SemS,L),
+        L = [Funk,Name],
         findall(A, call(Funk,Name,A), Z),
         (
         length(Z,0), keine_loesung; %keine Loesung
@@ -78,16 +75,17 @@ print_ResList([X|Rest]) :-
         write(X), write(", "), print_ResList(Rest).
 
 entsch_antwort(SemS) :-
-        SemS = [Func,Name1,Name2],
-        (call(Func,Name2,Name1),
+        (SemS = [[Funk,Name1],Name2];
+        SemS = [Funk, Name1]),
+        (call(Funk,Name1,Name2),
         writeln("Ja."));
         writeln("Nein.").
 
 
-vp([SemV,_], Num) -->
+vp([SemV], Num) -->
          v(SemV,Num).
 
-vp([SemV,SemNP,_], Num) -->
+vp([SemV,SemNP], Num) -->
          v(SemV,Num),
          np(SemNP, Num).
          
@@ -97,6 +95,12 @@ np(SemN, _) -->
 np(SemN, Num) -->
          a(Num, Gen),
          n(SemN, Num, Gen).
+         
+
+np([SemN,SemPP], Num) -->
+         a(Num, Gen),
+         n(SemN, Num, Gen),
+         pp(SemPP,Num).
 
 pp(SemN, Num) -->
          p,
@@ -108,4 +112,3 @@ v(SemV,Num) --> [X], {lex(X,SemV,v,Num,_)}.
 p --> [X], {lex(X,_,p,_,_)}.
 pn(SemN) --> [X], {lex(X,SemN,pn,_,_)}.
 n(SemN, Num, Gen) --> [X], {lex(X,SemN,n,Num,Gen)}.
-k --> [X], {lex(X,_,k,_,_)}.
