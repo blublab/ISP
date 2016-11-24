@@ -22,6 +22,7 @@ lex(wessen,_,i,_,_).
 % === Artikel ===
 %Sg
 lex(der,_,a,sg,m).
+lex(des,_,a,sg,m).
 lex(die,_,a,sg,f).
 lex(das,_,a,sg,n).
 lex(ein,_,a,sg,m).
@@ -32,8 +33,8 @@ lex(einen,_,a,sg,m).
 lex(die,_,a,pl,_).
 
 % === Verben ===
-lex(ist,_,v,sg,_).
-lex(sind,_,v,pl,_).
+lex(ist,sein,v,sg,_).
+lex(sind,sein,v,pl,_).
 
 % === Nomen ===
 %Nomen
@@ -41,6 +42,7 @@ lex(mutter,mutter,n,sg,f).
 lex(mütter,mutter,n,pl,f).
 
 lex(vater,vater,n,sg,m).
+lex(vaters,vater,n,sg,m).
 lex(vaeter,vater,n,pl,m).
 
 lex(eltern,eltern,n,pl,f).
@@ -116,47 +118,45 @@ lex(neffen,neffe,n,pl,m).
 lex(stiefkind,stiefkind,n,sg,n).
 lex(stiefkinder,stiefkind,n,pl,n).
 
+lex(verheiratet,verheiratet,n,pl,n).
+
 % === Praeposition ===
 lex(von,_,p,_,_).
 
-% === Konjunktion ===
-lex(und,_,k,_,_).
-
-
 % === Namen ===
-lex(thomas,_,pn,_,m).
+lex(thomas,thomas,pn,_,m).
 
-lex(john,_,pn,_,m).
-lex(william,_,pn,_,m).
+lex(john,john,pn,_,m).
+lex(william,william,pn,_,m).
 
-lex(jack,_,pn,_,m).
-lex(stephen,_,pn,_,m).
-lex(george,_,pn,_,m).
-lex(james,_,pn,_,m).
-lex(richard,_,pn,_,m).
+lex(jack,jack,pn,_,m).
+lex(stephen,stephen,pn,_,m).
+lex(george,george,pn,_,m).
+lex(james,james,pn,_,m).
+lex(richard,richard,pn,_,m).
 
-lex(phillip,_,pn,_,m).
-lex(steven,_,pn,_,m).
-lex(horace,_,pn,_,m).
-lex(ben,_,pn,_,m).
+lex(phillip,phillip,pn,_,m).
+lex(steven,steven,pn,_,m).
+lex(horace,horace,pn,_,m).
+lex(ben,ben,pn,_,m).
 
-lex(alexander,_,pn,_,m).
+lex(alexander,alexander,pn,_,m).
 
-lex(sarah,_,pn,_,w).
+lex(sarah,sarah,pn,_,w).
 
-lex(ann,_,pn,_,w).
-lex(elizabeth,_,pn,_,w).
+lex(ann,ann,pn,_,w).
+lex(elizabeth,elizabeth,pn,_,w).
 
-lex(fanny,_,pn,_,w).
-lex(beth,_,pn,_,w).
-lex(linda,_,pn,_,w).
-lex(mary,_,pn,_,w).
+lex(fanny,fanny,pn,_,w).
+lex(beth,beth,pn,_,w).
+lex(linda,linda,pn,_,w).
+lex(mary,mary,pn,_,w).
 
-lex(lisa,_,pn,_,w).
-lex(christine,_,pn,_,w).
-lex(edith,_,pn,_,w).
-lex(caroline,_,pn,_,w).
-lex(rose,_,pn,_,w).
-lex(ethel,_,pn,_,w).
+lex(lisa,lisa,pn,_,w).
+lex(christine,christine,pn,_,w).
+lex(edith,edith,pn,_,w).
+lex(caroline,caroline,pn,_,w).
+lex(rose,rose,pn,_,w).
+lex(ethel,ethel,pn,_,w).
 
-lex(norah,_,pn,_,w).
+lex(norah,norah,pn,_,w).

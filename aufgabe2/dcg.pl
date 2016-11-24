@@ -25,37 +25,35 @@ start :-
 % Ergaenzungsfrage (Wer [Verb] [Artikel] [Nomen] von [Name]?)
 frage -->
         i,
-        vp(_, Sem, _),
-        pp(Name, Sem),
+        vp(SemVP, Num),
+        pp(SemNP, Num),
         [?],
         {
-        findall(A, call(Sem, Name, A), Z),
-        (
-        length(Z,0), keine_loesung; %keine Loesung
-        length(Z,1), ergaenz_antwort(Sem,Name,Z); %eine Loesung
-        ergaenz_antwort_pl(Sem,Name,Z) %mehrere Loesungen
-        )}.
+        SemVP = [_,_,SemNP],
+        SemS =.. SemVP,
+        solve_ergaenz(SemS)}.
         
 % Entscheidungsfrage 1 (Ist [Name1] [Nomen] von [Name2]?)
 frage -->
-        vp(_, Sem, Num),
-        np(Name1,_,Num),
-        np(Name2,Sem,Num),
+        vp(_, Num),
+        np(SemNP1,Num),
+        np(SemNP2,Num),
+        pp(SemPP,Num),
         [?],
         {
-        entsch_antwort(Sem,Name2,Name1)
+        SemS = [SemNP2,SemNP1,SemPP],
+        entsch_antwort(SemS)
         }.
         
-% Entscheidungsfrage 2 (Sind [Name1] und [Name2] [Nomen]?)
-frage -->
-        vp(_, Sem, Num),
-        np(Name1,_,Num),
-        np(Name2,Sem,Num),
-        [?],
-        {
-        entsch_antwort(Sem,Name2,Name1)
-        }.
-
+solve_ergaenz(SemS) :-
+        arg(1,SemS,Funk),
+        arg(2,SemS,Name),
+        findall(A, call(Funk,Name,A), Z),
+        (
+        length(Z,0), keine_loesung; %keine Loesung
+        length(Z,1), ergaenz_antwort(Funk,Name,Z); %eine Loesung
+        ergaenz_antwort_pl(Funk,Name,Z)). %mehrere Loesungen
+        
 keine_loesung() :-
         write("Keine Loesung gefunden.").
 
@@ -79,44 +77,34 @@ print_ResList([X,Y|[]]) :-
 print_ResList([X|Rest]) :-
         write(X), write(", "), print_ResList(Rest).
 
-entsch_antwort(Sem,Name1,Name2) :-
-        (call(Sem,Name2,Name1),
+entsch_antwort(SemS) :-
+        SemS = [Func,Name1,Name2],
+        (call(Func,Name2,Name1),
         writeln("Ja."));
         writeln("Nein.").
 
 
-vp(_, _, Num) -->
-         v(Num).
-         
-vp(Name, Sem, Num) -->
-         v(Num),
-         np(Name, Sem, Num).
-         
-np(Name, _, _) -->
-         pn(Name).
-         
-np(_, Sem, Num) -->
-         a(Num, Gen),
-         n(Sem, Num, Gen).
+vp([SemV,_], Num) -->
+         v(SemV,Num).
 
-np(Name, Sem, Num) -->
-         a(Num, Gen),
-         n(Sem, Num, Gen),
-         pp(Name, Sem).
-
-np(Name, Sem, Num) -->
-         k,
-         pn(Name),
-         n(Sem, Num, Gen).
+vp([SemV,SemNP,_], Num) -->
+         v(SemV,Num),
+         np(SemNP, Num).
          
-pp(Name, Sem) -->
+np(SemN, _) -->
+         pn(SemN).
+         
+np(SemN, Num) -->
+         a(Num, Gen),
+         n(SemN, Num, Gen).
+
+pp(SemN, Num) -->
          p,
-         np(Name, Sem, _).
+         np(SemN, Num).
 
 a(Num,Gen) --> [X], {lex(X,_,a,Num,Gen)}.
 i --> [X], {lex(X,_,i,_,_)}.
-v(Num) --> [X], {lex(X,_,v,Num,_)}.
+v(SemV,Num) --> [X], {lex(X,SemV,v,Num,_)}.
 p --> [X], {lex(X,_,p,_,_)}.
-pn(Name) --> [Name], {lex(Name,_,pn,_,_)}.
-n(Sem, Num, Gen) --> [X], {lex(X,Sem,n,Num,Gen)}.
-k --> [X], {lex(X,_,k,_,_)}.
+pn(SemN) --> [X], {lex(X,SemN,pn,_,_)}.
+n(SemN, Num, Gen) --> [X], {lex(X,SemN,n,Num,Gen)}.
