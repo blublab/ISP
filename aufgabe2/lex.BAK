@@ -1,41 +1,25 @@
 ﻿%lex(Wort, Semantik, Wortart, Numerus, Genus)
 
 % === Interrogativpronomen ===
-%M&Sg
-lex(welcher,welcher,i, sg,m).
-lex(welchen,welchen,i, sg,m).
-
-%W&Sg
-lex(welche,welche,i, sg,w).
-lex(welcher,welcher,i, sg,w).
-
-%M&W&Pl
-lex(welche,welche,i,pl,_).
-lex(welcher,welcher,i,pl,_).
-lex(welchen,welchen,i,pl,_).
-
 lex(wer,wer,i,_,_).
-lex(wessen,wessen,i,_,_).
 
 % === Artikel ===
 %Sg
-lex(der,der,a,sg,m).
-lex(des,des,a,sg,m).
-lex(die,die,a,sg,f).
-lex(das,das,a,sg,n).
-lex(ein,ein,a,sg,m).
-lex(eine,eine,a,sg,f).
-lex(ein,ein,a,sg,n).
-lex(einen,einen,a,sg,m).
+lex(der,der,det,sg,m).
+lex(des,des,det,sg,m).
+lex(die,die,det,sg,f).
+lex(das,das,det,sg,n).
+lex(eine,ein,det,sg,f).
+lex(einen,ein,det,sg,m).
 %Pl
-lex(die,die,a,pl,_).
+lex(die,die,det,pl,_).
 
 % === Verben ===
 lex(ist,sein,v,sg,_).
 lex(sind,sein,v,pl,_).
+lex(hat,haben,v,_,_).
 
 % === Nomen ===
-%Nomen
 lex(eltern,eltern,n,pl,f).
 
 lex(ehemann,ehemann,n,sg,m).
@@ -120,21 +104,29 @@ lex(ben,ben,pn,_,m).
 
 lex(alexander,alexander,pn,_,m).
 
-lex(sarah,sarah,pn,_,w).
+lex(sarah,sarah,pn,_,f).
 
-lex(ann,ann,pn,_,w).
-lex(elizabeth,elizabeth,pn,_,w).
+lex(ann,ann,pn,_,f).
+lex(elizabeth,elizabeth,pn,_,f).
 
-lex(fanny,fanny,pn,_,w).
-lex(beth,beth,pn,_,w).
-lex(linda,linda,pn,_,w).
-lex(mary,mary,pn,_,w).
+lex(fanny,fanny,pn,_,f).
+lex(beth,beth,pn,_,f).
+lex(linda,linda,pn,_,f).
+lex(mary,mary,pn,_,f).
 
-lex(lisa,lisa,pn,_,w).
-lex(christine,christine,pn,_,w).
-lex(edith,edith,pn,_,w).
-lex(caroline,caroline,pn,_,w).
-lex(rose,rose,pn,_,w).
-lex(ethel,ethel,pn,_,w).
+lex(lisa,lisa,pn,_,f).
+lex(christine,christine,pn,_,f).
+lex(edith,edith,pn,_,f).
+lex(caroline,caroline,pn,_,f).
+lex(rose,rose,pn,_,f).
+lex(ethel,ethel,pn,_,f).
 
-lex(norah,norah,pn,_,w).
+lex(norah,norah,pn,_,f).
+
+% === Adverb ===
+lex(wie,wie,a,_,_).
+
+% === Pronom ===
+lex(viele,viel,pr,pl,_).
+lex(kein,kein,pr,sg,m).
+lex(keine,kein,pr,sg,f).
