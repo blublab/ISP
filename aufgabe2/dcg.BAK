@@ -1,6 +1,7 @@
 :- consult('stammbaum.pl').
 :- consult('readsentence.pl').
 :- consult('lex.pl').
+:- consult('ausgabe.pl').
 
 /*
  s: Satz
@@ -22,93 +23,69 @@ start :-
         read_sentence(Frage),
         frage(Frage, []).
 
-% Ergaenzungsfrage (Wer [Verb] [Artikel] [Nomen] von [Name]?)
+% Ergaenzungsfrage (wer ist der vater von jack?)
 frage -->
-        i,
-        vp(SemVP, _),
+        i(_SemI, Num),
+        vp(SemVP,SemNP,SemPP,Num,Gen),
         [?],
         {
-        SemS =.. SemVP,
-        solve_ergaenz(SemS)}.
+        solve_ergaenz(SemNP,SemPP)}.
         
-% Entscheidungsfrage 1 (Ist [Name1] [Nomen] von [Name2]?)
+% Entscheidungsfrage 1 (ist william der bruder von john?)
 frage -->
-        vp(_, Num),
-        np(SemNP1,Num),
-        np(SemNP2,Num),
+        vp(_SemVP,_SemNP,_SemPP,Num,Gen),
+        np(SemNP1,_SemPP1,Num,Gen),
+        np(SemNP2,SemPP2,Num,Gen),
         [?],
         {
-        SemS = [SemNP2,SemNP1],
-        entsch_antwort(SemS)
+        solve_entsch(SemNP1,SemNP2,SemPP2)
         }.
         
-solve_ergaenz(SemS) :-
-        arg(1,SemS,L),
-        L = [Funk,Name],
-        findall(A, call(Funk,Name,A), Z),
+% Entscheidungsfrage 2 (wie viele brueder hat jack?)
+frage -->
+      i(_SemI, Num),
+      
+        
+solve_ergaenz(SemNP,SemPP) :-
+        Call =.. [SemNP,SemPP, X],
+        findall(X, call(Call), Z),
         (
         length(Z,0), keine_loesung; %keine Loesung
-        length(Z,1), ergaenz_antwort(Funk,Name,Z); %eine Loesung
-        ergaenz_antwort_pl(Funk,Name,Z)). %mehrere Loesungen
+        length(Z,1), ergaenz_antwort(SemNP,SemPP,Z); %eine Loesung
+        ergaenz_antwort_pl(SemNP,SemPP,Z)). %mehrere Loesungen
         
-keine_loesung() :-
-        write("Keine Loesung gefunden.").
-
-ergaenz_antwort(Sem,Name,[Res]) :-
-        lex(Nomen,Sem,n,Num,Gen),
-        lex(Artikel,_,a,Num,Gen),
-        lex(Praep,_,p,Num,Gen),
-        lex(Verb,_,v,Num,Gen),
-        write(Artikel), write(" "), write(Nomen), write(" "), write(Praep), write(" "), write(Name), write(" "), write(Verb), write(" "), write(Res), writeln(".").
-
-ergaenz_antwort_pl(Sem,Name,ResList) :-
-        lex(Nomen,Sem,n,pl,Gen),
-        lex(Artikel,_,a,pl,Gen),
-        lex(Praep,_,p,pl,Gen),
-        lex(Verb,_,v,pl,Gen),
-        write(Artikel), write(" "), write(Nomen), write(" "), write(Praep), write(" "), write(Name), write(" "), write(Verb), write(" "), print_ResList(ResList).
-        
-print_ResList([X,Y|[]]) :-
-        write(X), write(" "), write("und "), write(Y), writeln(".").
-        
-print_ResList([X|Rest]) :-
-        write(X), write(", "), print_ResList(Rest).
-
-entsch_antwort(SemS) :-
-        (SemS = [[Funk,Name1],Name2];
-        SemS = [Funk, Name1]),
-        (call(Funk,Name1,Name2),
+solve_entsch(SemNP1,SemNP2,SemPP2) :-
+        Call =.. [SemNP2,SemPP2,SemNP1],
+        (call(Call),
         writeln("Ja."));
         writeln("Nein.").
 
+vp(SemVP,_SemNP,_SemPP,Num,_Gen) -->
+         v(SemVP,Num).
 
-vp([SemV], Num) -->
-         v(SemV,Num).
-
-vp([SemV,SemNP], Num) -->
-         v(SemV,Num),
-         np(SemNP, Num).
+vp(SemVP,SemNP,SemPP,Num,Gen) -->
+         v(SemVP,Num),
+         np(SemNP,SemPP,Num,Gen).
          
-np(SemN, _) -->
-         pn(SemN).
+np(SemNP,_SemPP,_Num,_Gen) -->
+         pn(SemNP).
          
-np(SemN, Num) -->
-         a(Num, Gen),
-         n(SemN, Num, Gen).
+np(SemNP,_SemPP,Num,Gen) -->
+         a(_SemA,Num,Gen),
+         n(SemNP,Num,Gen).
          
+np(SemNP,SemPP,Num,Gen) -->
+         a(_SemA,Num,Gen),
+         n(SemNP,Num,Gen),
+         pp(SemPP,Num,Gen).
 
-np([SemN,SemPP], Num) -->
-         a(Num, Gen),
-         n(SemN, Num, Gen),
-         pp(SemPP,Num).
+pp(SemPP,Num,Gen) -->
+         p(_SemP),
+         np(SemPP,_SemPP,Num,Gen).
 
-pp(SemN, Num) -->
-         p,
-         np(SemN, Num).
-
-a(Num,Gen) --> [X], {lex(X,_,a,Num,Gen)}.
-i --> [X], {lex(X,_,i,_,_)}.
+a(SemA,Num,Gen) --> [X], {lex(X,SemA,a,Num,Gen)}.
+i(SemI,Num) --> [X], {lex(X,SemI,i,Num,_)}.
 v(SemV,Num) --> [X], {lex(X,SemV,v,Num,_)}.
-p --> [X], {lex(X,_,p,_,_)}.
+p(SemP) --> [X], {lex(X,SemP,p,_,_)}.
 pn(SemN) --> [X], {lex(X,SemN,pn,_,_)}.
-n(SemN, Num, Gen) --> [X], {lex(X,SemN,n,Num,Gen)}.
+n(SemN,Num,Gen) --> [X], {lex(X,SemN,n,Num,Gen)}.

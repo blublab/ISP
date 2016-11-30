@@ -119,12 +119,15 @@ geschwister(X,Y):-
         mutter(Y,B),
         not(X=Y).
 
+kind(X,Y):-
+        eltern(Y,X).
+        
 sohn(X,Y):-
-        eltern(X,Y),
+        eltern(Y,X),
         male(Y).
         
 tochter(X,Y):-
-        eltern(X,Y),
+        eltern(Y,X),
         female(Y).
         
 bruder(X,Y):-
@@ -134,9 +137,15 @@ bruder(X,Y):-
 schwester(X,Y):-
         geschwister(X,Y),
         female(Y).
+
         
-kind(X,Y):-
-        eltern(Y,X).
+grossvater(X,Y):-
+        eltern(X,A),
+        vater(A,Y).
+        
+grossmutter(X,Y):-
+        eltern(X,A),
+        mutter(A,Y).
         
 cousin(X,Y):-
         eltern(A,X),
@@ -154,27 +163,42 @@ neffe(X,Y):-
         geschwister(X,A),
         sohn(A,Y).
         
-halb_schwester(X,Y):-
-        female(Y),
+nichte(X,Y):-
+        geschwister(X,A),
+        tochter(A,Y).
+        
+halbschwester(X,Y):-
+        (female(Y),
         vater(X,A),
         vater(Y,B),
-        mutter(X,A),
+        mutter(X,C),
         mutter(Y,C),
-        not(B=C);
-        female(Y),
-        mutter(X,A),
-        mutter(Y,A),
-        vater(X,B),
-        vater(Y,C),
-        not(B=C).
+        A\=B);
+        (female(Y),
+        vater(X,A),
+        vater(Y,A),
+        mutter(X,B),
+        mutter(Y,C),
+        B\=C).
+        
+onkel(X,Y):-
+        eltern(X,A),
+        geschwister(A,Y),
+        male(Y).
+
+grossonkel(X,Y):-
+        eltern(X,A),
+        eltern(A,B),
+        geschwister(Y,B),
+        male(Y).
         
 tante(X,Y):-
-        female(X),
-        eltern(A,Y),
-        geschwister(X,A).
+        eltern(X,A),
+        geschwister(Y,A),
+        female(Y).
         
-gross_tante(X,Y):-
-        female(X),
-        eltern(A,Y),
-        eltern(B,A),
-        geschwister(X,B).
+grosstante(X,Y):-
+        eltern(X,A),
+        eltern(A,B),
+        geschwister(Y,B),
+        female(Y).

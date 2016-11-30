@@ -2,35 +2,33 @@
 
 % === Interrogativpronomen ===
 %M&Sg
-lex(welcher,_,i, sg,m).
-lex(welches,_,i, sg,m).
-lex(welchen,_,i, sg,m).
-lex(welchem,_,i, sg,m).
+lex(welcher,welcher,i, sg,m).
+lex(welchen,welchen,i, sg,m).
 
 %W&Sg
-lex(welche,_,i, sg,w).
-lex(welcher,_,i, sg,w).
+lex(welche,welche,i, sg,w).
+lex(welcher,welcher,i, sg,w).
 
 %M&W&Pl
-lex(welche,_,i,pl,_).
-lex(welcher,_,i,pl,_).
-lex(welchen,_,i,pl,_).
+lex(welche,welche,i,pl,_).
+lex(welcher,welcher,i,pl,_).
+lex(welchen,welchen,i,pl,_).
 
-lex(wer,_,i,_,_).
-lex(wessen,_,i,_,_).
+lex(wer,wer,i,_,_).
+lex(wessen,wessen,i,_,_).
 
 % === Artikel ===
 %Sg
-lex(der,_,a,sg,m).
-lex(des,_,a,sg,m).
-lex(die,_,a,sg,f).
-lex(das,_,a,sg,n).
-lex(ein,_,a,sg,m).
-lex(eine,_,a,sg,f).
-lex(ein,_,a,sg,n).
-lex(einen,_,a,sg,m).
+lex(der,der,a,sg,m).
+lex(des,des,a,sg,m).
+lex(die,die,a,sg,f).
+lex(das,das,a,sg,n).
+lex(ein,ein,a,sg,m).
+lex(eine,eine,a,sg,f).
+lex(ein,ein,a,sg,n).
+lex(einen,einen,a,sg,m).
 %Pl
-lex(die,_,a,pl,_).
+lex(die,die,a,pl,_).
 
 % === Verben ===
 lex(ist,sein,v,sg,_).
@@ -38,90 +36,70 @@ lex(sind,sein,v,pl,_).
 
 % === Nomen ===
 %Nomen
-lex(mutter,mutter,n,sg,f).
-lex(mütter,mutter,n,pl,f).
-
-lex(vater,vater,n,sg,m).
-lex(vaters,vater,n,sg,m).
-lex(vaeter,vater,n,pl,m).
-
 lex(eltern,eltern,n,pl,f).
-
-lex(ehefrau,ehefrau,n,sg,f).
-lex(ehefrauen,ehefrau,n,pl,f).
 
 lex(ehemann,ehemann,n,sg,m).
 lex(ehemaenner,ehemann,n,pl,m).
 
-lex(kind,kind,n,sg,n).
-lex(kinder,kind,n,pl,n).
+lex(ehefrau,ehefrau,n,sg,f).
+lex(ehefrauen,ehefrau,n,pl,f).
+
+lex(vater,vater,n,sg,m).
+lex(vaeter,vater,n,pl,m).
+
+lex(mutter,mutter,n,sg,f).
+lex(muetter,mutter,n,pl,f).
 
 lex(geschwister,geschwister,n,pl,f).
 
-lex(tochter,tochter,n,sg,f).
-lex(toechter,tochter,n,pl,f).
+lex(kind,kind,n,sg,n).
+lex(kinder,kind,n,pl,n).
 
 lex(sohn,sohn,n,sg,m).
 lex(soehne,sohn,n,pl,m).
 
-lex(schwester,schwester,n,sg,f).
-lex(schwestern,schwester,n,pl,f).
+lex(tochter,tochter,n,sg,f).
+lex(toechter,tochter,n,pl,f).
 
 lex(bruder,bruder,n,sg,m).
 lex(brueder,bruder,n,pl,m).
 
-lex(halbgeschwister,halbgeschwister,n,sg,n).
-lex(halbgeschwister,halbgeschwister,n,sg,n).
+lex(schwester,schwester,n,sg,f).
+lex(schwestern,schwester,n,pl,f).
 
-lex(halbschwester,halbschwester,n,sg,f).
-lex(halbschwestern,halbschwester,n,pl,f).
+lex(grossvater,grossvater,n,sg,m).
 
-lex(halbbruder,halbbruder,n,sg,m).
-lex(halbbrueder,halbbruder,n,pl,m).
-
-lex(oma,oma,n,sg,f).
-lex(omas,oma,n,pl,f).
-
-lex(opa,opa,n,sg,m).
-lex(opas,opa,n,pl,m).
-
-lex(uroma,uroma,n,sg,f).
-lex(uromas,uroma,n,pl,f).
-
-lex(uropa,uropa,n,sg,m).
-lex(uropas,uropa,n,pl,m).
-
-lex(tante,tante,n,sg,f).
-lex(tanten,tante,n,pl,f).
-
-lex(onkel,onkel,n,sg,m).
-lex(onkel,onkel,n,pl,m).
-
-lex(grosstante,grosstante,n,sg,f).
-lex(grosstanten,grosstante,n,pl,f).
-
-lex(grossonkel,grossonkel,n,sg,m).
-lex(grossonkel,grossonkel,n,pl,m).
-
-lex(cousine,cousine,n,sg,f).
-lex(cousinen,cousine,n,pl,f).
+lex(grossmutter,grossmutter,n,sg,f).
 
 lex(cousin,cousin,n,sg,m).
 lex(cousins,cousin,n,pl,m).
 
-lex(nichte,nichte,n,sg,f).
-lex(nichten,nichte,n,pl,f).
+lex(cousine,cousine,n,sg,f).
+lex(cousinen,cousine,n,pl,f).
 
 lex(neffe,neffe,n,sg,m).
 lex(neffen,neffe,n,pl,m).
 
-lex(stiefkind,stiefkind,n,sg,n).
-lex(stiefkinder,stiefkind,n,pl,n).
+lex(nichte,nichte,n,sg,f).
+lex(nichten,nichte,n,pl,f).
 
-lex(verheiratet,verheiratet,n,pl,n).
+lex(halbschwester,halbschwester,n,sg,f).
+lex(halbschwestern,halbschwester,n,pl,f).
+
+lex(onkel,onkel,n,sg,m).
+lex(onkel,onkel,n,pl,m).
+
+lex(grossonkel,grossonkel,n,sg,m).
+lex(grossonkel,grossonkel,n,pl,m).
+
+lex(tante,tante,n,sg,f).
+lex(tanten,tante,n,pl,f).
+
+lex(grosstante,grosstante,n,sg,f).
+lex(grosstanten,grosstante,n,pl,f).
 
 % === Praeposition ===
-lex(von,_,p,_,_).
+lex(von,von,p,_,_).
 
 % === Namen ===
 lex(thomas,thomas,pn,_,m).
