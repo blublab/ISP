@@ -39,7 +39,7 @@ frage -->
         
 % Entscheidungsfrage 1 (ist william der bruder von john?)
 frage -->
-        vp(_SemVP,_SemNP,_SemPP,Num,Gen),
+        v(_SemVP,Num),
         np(SemNP1,_SemPP1,Num,Gen),
         np(SemNP2,SemPP2,Num,Gen),
         [?],
@@ -97,7 +97,7 @@ det(SemDet,Num,Gen) --> [X], {lex(X,SemDet,det,Num,Gen)}.
 i(SemI,Num) --> [X], {lex(X,SemI,i,Num,_Gen)}.
 v(SemV,Num) --> [X], {lex(X,SemV,v,Num,_Gen)}.
 p(SemP) --> [X], {lex(X,SemP,p,_Num,_Gen)}.
-pn(SemN) --> [X], {lex(X,SemN,pn,_Num,_Gen)}.
+pn(SemN) --> [SemN], {lex(X,SemN,pn,_Num,_Gen)}.
 n(SemN,Num,Gen) --> [X], {lex(X,SemN,n,Num,Gen)}.
 a(SemA) --> [X], {lex(X,SemA,a,_Num,_Gen)}.
 pr(SemPr,Num) --> [X], {lex(X,SemPr,pr,Num,_Gen)}.

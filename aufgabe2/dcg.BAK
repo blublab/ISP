@@ -39,7 +39,7 @@ frage -->
         
 % Entscheidungsfrage 1 (ist william der bruder von john?)
 frage -->
-        vp(_SemVP,_SemNP,_SemPP,Num,Gen),
+        v(_SemVP,Num),
         np(SemNP1,_SemPP1,Num,Gen),
         np(SemNP2,SemPP2,Num,Gen),
         [?],
@@ -76,11 +76,6 @@ vp(SemVP,SemNP,SemPP,Num,Gen) -->
 vp(SemVP,SemNP,_SemPP,Num,_Gen) -->
          n(SemNP,Num,Gen),
          v(SemVP,Num).
-         
-vp(SemVP,SemNP,SemPP,Num,Gen) -->
-         v(SemVP,Num),
-         np(SemNP1,_SemPP1,Num,Gen),
-         np(SemNP2,_SemPP2,Num,Gen).
          
 np(SemNP,_SemPP,_Num,_Gen) -->
          pn(SemNP).

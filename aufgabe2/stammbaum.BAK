@@ -202,3 +202,13 @@ grosstante(X,Y):-
         eltern(A,B),
         geschwister(Y,B),
         female(Y).
+        
+enkel(X,Y):-
+        male(Y),
+        (grossvater(Y,X);
+        grossmutter(Y,X)).
+
+enkelin(X,Y):-
+        female(Y),
+       (grossvater(Y,X);
+        grossmutter(Y,X)).
