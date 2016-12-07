@@ -13,7 +13,8 @@ solve(Strategy):-
 %
 solve(StartNode,Strategy) :-
   start_node(StartNode),
-  search([[StartNode]],Strategy,Path),
+  (Strategy = 'it' -> search([[StartNode]],it,Path,1);
+  search([[StartNode]],Strategy,Path)),
   reverse(Path,Path_in_correct_order),
   write_solution(Path_in_correct_order).
 
@@ -27,13 +28,31 @@ write_actions([(Action,_,_)|Rest]):-
   write('Action: '),write(Action),nl,
   write_actions(Rest).
 
-% Abbruchbedingung: Wenn ein Zielzustand erreicht ist, wird der aktuelle Pfad an den
-% dritten Parameter übertragen.
-%
-search([[FirstNode|Predecessors]|_],_,[FirstNode|Predecessors]) :- 
+
+%%%%%% Iterative Tiefensuche
+%Ziel gefunden
+beschraenkteTiefensuche([[FirstNode|Predecessors]|_],_,[FirstNode|Predecessors],_) :-
   goal_node(FirstNode),
   nl,write('SUCCESS'),nl,!.
 
+beschraenkteTiefensuche([[FirstNode|Predecessors]|RestPaths],it,Solution,MaxTiefe):-
+  MaxTiefe>0, % Prüfen, ob max. Tiefe erreicht ist
+  expand(FirstNode,Children),                                    % Nachfolge-Zustände berechnen
+  generate_new_paths(Children,[FirstNode|Predecessors],NewPaths), % Nachfolge-Zustände einbauen
+  insert_new_paths(depth,NewPaths,RestPaths,AllPaths),        % Neue Pfade einsortieren
+  beschraenkteTiefensuche(AllPaths,it,Solution,MaxTiefe-1). % Tiefe um eins verringern
+
+search(Paths,it,Solution,Tiefe) :-
+  beschraenkteTiefensuche(Paths,it,Solution,Tiefe); % Beschräkte Tiefensuche
+  search(Paths,it,Solution,Tiefe+1). % Neue Itereation mit Tiefe+1
+%%%%%% ENDE Iterative Tiefensuche
+
+% Abbruchbedingung: Wenn ein Zielzustand erreicht ist, wird der aktuelle Pfad an den
+% dritten Parameter übertragen.
+%
+search([[FirstNode|Predecessors]|_],_,[FirstNode|Predecessors]) :-
+  goal_node(FirstNode),
+  nl,write('SUCCESS'),nl,!.
 
 search([[FirstNode|Predecessors]|RestPaths],Strategy,Solution) :- 
   expand(FirstNode,Children),                                    % Nachfolge-Zustände berechnen
@@ -109,12 +128,25 @@ insert_new_paths(informed,NewPaths,OldPaths,AllPaths):-
   insert_new_paths_informed(NewPaths,OldPaths,AllPaths).
   %write_action(AllPaths),
   %write_state(AllPaths).
-
-% Informierte Suche
-insert_new_paths(ob,NewPaths,_,AllPaths):-
-  eval_paths(gBesten,NewPaths),
-  insert_new_paths_informed(NewPaths,[],AllPaths).
+  
+% Gierige Bestensuche
+insert_new_paths(gb,NewPaths,OldPaths,AllPaths):-
+  eval_paths(gb,NewPaths), % Bewertung ohne bisherige Kosten
+  insert_new_paths_informed(NewPaths,OldPaths,AllPaths). % Einfügen wie bei A*
   %write_action(AllPaths),
   %write_state(AllPaths).
 
+% Optimistisches Bergsteigen
+insert_new_paths(ob,NewPaths,_,AllPaths):-
+  eval_paths(ob,NewPaths), % Bewertung ohne bisherige Kosten
+  insert_new_paths_informed(NewPaths,[],AllPaths). % Nur Nachfolger betrachten
+  %write_action(AllPaths),
+  %write_state(AllPaths).
 
+% Bergsteigen mit Backtracking
+insert_new_paths(bb,NewPaths,OldPaths,AllPaths):-
+  eval_paths(bb,NewPaths), % Bewertung ohne bisherige Kosten
+  insert_new_paths_informed(NewPaths,[],SortedNewPaths),
+  append(SortedNewPaths,OldPaths,AllPaths). % Nachfolger nur untereinander sortiert einfügen
+  %write_action(AllPaths),
+  %write_state(AllPaths).

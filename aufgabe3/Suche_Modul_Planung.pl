@@ -9,36 +9,51 @@
 
 
 start_description([
-%  block(block5),
-%  block(block6),
-%  block(block7),
-%  on(block1,block6),
-%  on(block3,block7),
-%  on(block4,block5),
   block(block1),
   block(block2),
   block(block3),
-%  block(block4),  %mit Block4
+  block(block4),
+  block(block5),
+  block(block6),
+  block(block7),
   on(table,block2),
   on(table,block3),
   on(block2,block1),
-%  on(table,block4), %mit Block4
-  clear(block1),
+  on(block7,block4), 
+  on(block1,block6),
+  on(block4,block5),
+  on(table,block7),
   clear(block3),
-%  clear(block4), %mit Block4
+  clear(block5),
+  clear(block6),
   handempty
   ]).
 
+/*start_description([
+  block(block1),
+  block(block2),
+  block(block3),
+  block(block4),  %mit Block4
+  on(table,block2),
+  on(table,block3),
+  on(block2,block1),
+  on(table,block4), %mit Block4
+  clear(block1),
+  clear(block3),
+  clear(block4), %mit Block4
+  handempty
+  ]).*/
+  
 goal_description([
   block(block1),
   block(block2),
   block(block3),
-%  block(block4), %mit Block4
-%  on(block4,block2), %mit Block4
+  block(block4), %mit Block4
+  on(block4,block2), %mit Block4
   on(table,block3),
   on(table,block1),
-%  on(block1,block4), %mit Block4
-  on(block1,block2), %ohne Block4
+  on(block1,block4), %mit Block4
+%  on(block1,block2), %ohne Block4
   clear(block3),
   clear(block2),
   handempty
@@ -81,16 +96,14 @@ eval_path(informed,[(_,State,Value)|RestPath]):-
    Value is G+H+1.
 
 eval_path(_,[(_,State,Value)|RestPath]):-
-%  eval_state(State,"Rest des Literals bzw. der Klausel"
    eval_state(State,H),
-%  "Value berechnen".
    Value is H.
 
 eval_state(State,Value):-
-   h(komplex,State,H),
+   h(komplex,State,H), %Heuristik
    Value is H.
 
-h(simple,State,Value):- % zählt alle blöcke an falscher position
+h(simpel,State,Value):- % zählt alle blöcke an falscher position
    goal_description(Goal),
    subtract(Goal, State, ToDo),
    length(ToDo,Value).
