@@ -89,28 +89,32 @@ write_fail(_,_):-  nl,write('FAIL').
 
 % Alle Strategien: Keine neuen Pfade vorhanden
 insert_new_paths(Strategy,[],OldPaths,OldPaths):-
-  write_fail(Strategy,OldPaths),!.
+   !.
+  %write_fail(Strategy,OldPaths),!.
 
 % Tiefensuche
 insert_new_paths(depth,NewPaths,OldPaths,AllPaths):-
-  append(NewPaths,OldPaths,AllPaths),
-  write_action(NewPaths).
+  append(NewPaths,OldPaths,AllPaths).
+  %write_action(NewPaths).
 
 % Breitensuche
 insert_new_paths(breadth,NewPaths,OldPaths,AllPaths):-
-  append(OldPaths,NewPaths,AllPaths),
-  write_next_state(AllPaths),
-  write_action(AllPaths).
+  append(OldPaths,NewPaths,AllPaths).
+  %write_next_state(AllPaths),
+  %write_action(AllPaths).
 
 % Informierte Suche
 insert_new_paths(informed,NewPaths,OldPaths,AllPaths):-
-  eval_paths(NewPaths),
-  insert_new_paths_informed(NewPaths,OldPaths,AllPaths),
-  write_action(AllPaths),
-  write_state(AllPaths).
+  eval_paths(informed,NewPaths),
+  insert_new_paths_informed(NewPaths,OldPaths,AllPaths).
+  %write_action(AllPaths),
+  %write_state(AllPaths).
 
-
-
-
+% Informierte Suche
+insert_new_paths(ob,NewPaths,_,AllPaths):-
+  eval_paths(gBesten,NewPaths),
+  insert_new_paths_informed(NewPaths,[],AllPaths).
+  %write_action(AllPaths),
+  %write_state(AllPaths).
 
 

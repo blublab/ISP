@@ -9,6 +9,12 @@
 
 
 start_description([
+%  block(block5),
+%  block(block6),
+%  block(block7),
+%  on(block1,block6),
+%  on(block3,block7),
+%  on(block4,block5),
   block(block1),
   block(block2),
   block(block3),
@@ -44,7 +50,7 @@ start_node((start,_,_)).
 
 goal_node((_,State,_)):-
 %  "Zielbedingungen einlesen"
-  goal_description(Goal),
+   goal_description(Goal),
 %  "Zustand gegen Zielbedingungen testen".
    mysubset(Goal,State).
 
@@ -67,15 +73,44 @@ state_member(State,[_|RestStates]):-
   state_member(State,RestStates).
 
 
-eval_path(Suche,[(_,State,Value)|RestPath]):-
+eval_path(informed,[(_,State,Value)|RestPath]):-
 %  eval_state(State,"Rest des Literals bzw. der Klausel"
    length(RestPath,G),
    eval_state(State,H),
 %  "Value berechnen".
    Value is G+H+1.
 
-eval_state(State,H):-
-   H is 0.
+eval_path(_,[(_,State,Value)|RestPath]):-
+%  eval_state(State,"Rest des Literals bzw. der Klausel"
+   eval_state(State,H),
+%  "Value berechnen".
+   Value is H.
+
+eval_state(State,Value):-
+   h(komplex,State,H),
+   Value is H.
+
+h(simple,State,Value):- % zählt alle blöcke an falscher position
+   goal_description(Goal),
+   subtract(Goal, State, ToDo),
+   length(ToDo,Value).
+   
+h(komplex,State,Value):-
+   goal_description(Goal),
+   subtract(State, Goal, Rest),
+   calcCosts(Rest,Goal,H),
+   Value is H.
+
+calcCosts([],_,0).
+
+calcCosts([Cond|RestCond],Goal,Cost):-
+   calcCosts(RestCond,Goal,RestCost),
+   (Cond=clear(X),member(on(table,X),Goal) -> H is 1; %Block ist frei und soll auf Tisch
+   Cond=clear(X),member(on(X,_),Goal) -> H is 1; %Block ist frei und ein anderer soll rauf
+   Cond=ontable(_) -> H is 1; %Block ist auf Tisch, soll aber nicht dort sein
+   Cond=on(X,Y),member(on(X,Z),Goal),Y\=Z -> H is 2; %Z soll auf X sein, aber Y ist auf X
+   H is 0), 
+   Cost is RestCost+H.
 
 action(pick_up(X),
        [handempty, clear(X), on(table,X)],

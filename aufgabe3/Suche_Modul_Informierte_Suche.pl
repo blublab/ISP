@@ -7,9 +7,9 @@ eval_paths(_,[]).
 % für die restlichen Pfade.
 % eval-path wird anwendungsspezifisch definiert. Es wird eine Bewertung in den Kopfknoten eingetragen.
 %
-eval_paths(Suche,[FirstPath|RestPaths]):-
-  eval_path(Suche,FirstPath),
-  eval_paths(Suche,RestPaths).
+eval_paths(Strategy,[FirstPath|RestPaths]):-
+  eval_path(Strategy,FirstPath),
+  eval_paths(Strategy,RestPaths).
 
 
 % Abbruch: Wenn die Liste leer ist, gibt es keine neuen
