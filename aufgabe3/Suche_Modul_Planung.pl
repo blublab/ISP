@@ -33,14 +33,14 @@ start_description([
   block(block1),
   block(block2),
   block(block3),
-  block(block4),  %mit Block4
+%  block(block4),  %mit Block4
   on(table,block2),
   on(table,block3),
   on(block2,block1),
-  on(table,block4), %mit Block4
+%  on(table,block4), %mit Block4
   clear(block1),
   clear(block3),
-  clear(block4), %mit Block4
+%  clear(block4), %mit Block4
   handempty
   ]).*/
   

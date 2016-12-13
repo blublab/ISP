@@ -31,7 +31,7 @@ write_actions([(Action,_,_)|Rest]):-
 
 %%%%%% Iterative Tiefensuche
 %Ziel gefunden
-beschraenkteTiefensuche([[FirstNode|Predecessors]|_],it,[FirstNode|Predecessors],_) :-
+beschraenkteTiefensuche([[FirstNode|Predecessors]|_],_,[FirstNode|Predecessors],_) :-
   goal_node(FirstNode),
   nl,write('SUCCESS'),nl,!.
 
@@ -133,15 +133,21 @@ insert_new_paths(informed,NewPaths,OldPaths,AllPaths):-
 insert_new_paths(gb,NewPaths,OldPaths,AllPaths):-
   eval_paths(gb,NewPaths), % Bewertung ohne bisherige Kosten
   insert_new_paths_informed(NewPaths,OldPaths,AllPaths). % Einfügen wie bei A*
-  %write_action(AllPaths),
-  %write_state(AllPaths).
+%  write_action(AllPaths),
+%  write_state(AllPaths).
 
 % Optimistisches Bergsteigen
-insert_new_paths(ob,NewPaths,_,AllPaths):-
-  eval_paths(ob,NewPaths), % Bewertung ohne bisherige Kosten
-  insert_new_paths_informed(NewPaths,[],AllPaths). % Nur Nachfolger betrachten
-  %write_action(AllPaths),
-  %write_state(AllPaths).
+%insert_new_paths(ob,[],_,_).
+
+insert_new_paths(ob,NewPaths,_,[BestPath]):-
+  eval_paths(ob,NewPaths),
+  insert_new_paths_informed(NewPaths, [], [BestPath|_]),
+  [(_,_,ValueNeu)|_]=BestPath,
+  getValue(BestPath,ValueVorherig),
+  (ValueNeu >= ValueVorherig -> write_fail(gb,_);
+    write_action([BestPath]),
+    write_state([BestPath])
+   ).
 
 % Bergsteigen mit Backtracking
 insert_new_paths(bb,NewPaths,OldPaths,AllPaths):-
@@ -150,3 +156,8 @@ insert_new_paths(bb,NewPaths,OldPaths,AllPaths):-
   append(SortedNewPaths,OldPaths,AllPaths). % Nachfolger nur untereinander sortiert einfügen
   %write_action(AllPaths),
   %write_state(AllPaths).
+  
+  %Abbruch wenn erster
+getValue([_|[(A,_,V)|_]],Value):-
+    (A == start -> Value=9999999999;
+     Value=V).
