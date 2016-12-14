@@ -19,10 +19,11 @@ getraenk = ['tee','kaffee','milch','bier','wasser']
 	
 zigarette = ['pallmall','dunhill','malboro','winfield','rothmanns']
 
-for n,f,t,z in zip(nation,farbe,tier,zigarette):
+for n,f,t,g,z in zip(nation,farbe,tier,getraenk,zigarette):
 	csp.addKnoten(n,domain)
 	csp.addKnoten(f,domain)
 	csp.addKnoten(t,domain)
+	csp.addKnoten(g,domain)
 	csp.addKnoten(z,domain)
 
 gleich = lambda a, b: a == b
@@ -45,7 +46,7 @@ csp.addConstraint(('norweger','norweger',erstesHaus))	# 9. Der Norweger lebt im 
 csp.addConstraint(('malboro','katze',nachbarn))			# 10. Der Malboro-Raucher wohnt neben der Person mit der Katze.
 csp.addConstraint(('pferd','dunhill',nachbarn))			# 11. Der Mann mit dem Pferd lebt neben der Person, die Dunhill raucht.
 csp.addConstraint(('winfield','bier',gleich))			# 12. Der Winfield-Raucher trinkt gern Bier.
-csp.addConstraint(('norwerger','blau',nachbarn))		# 13. Der Norweger wohnt neben dem blauen Haus.
+csp.addConstraint(('norweger','blau',nachbarn))			# 13. Der Norweger wohnt neben dem blauen Haus.
 csp.addConstraint(('deutscher','rothmanns',gleich))		# 14. Der Deutsche raucht Rothmanns.
 csp.addConstraint(('malboro','wasser',nachbarn))		# 15. Der Malboro-Raucher hat einen Nachbarn, der Wasser trinkt.
 

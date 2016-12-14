@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import copy
 
 class CSP:
 	def __init__(self):
@@ -8,7 +11,6 @@ class CSP:
 		
 	def addKnoten(self,knoten,domain):
 		self.knoten[knoten] = domain
-		self.index[knoten] = self.index.count()
 		
 	def addConstraint(self,constraint):
 		self.constraints.append(constraint)
@@ -33,15 +35,13 @@ class CSP:
 						self.knoten[v].remove(x)
 				
 	def revise(self,c):
-		delete = false
-		i = c[0],
-		domI = list(self.knoten[i])
-		j = c[1],
+		delete = False
+		domI = list(self.knoten[c[0]])
 		for x in domI:
-			for y in self.knoten[j]:
-				if not c[3](x,y):
-					self.knoten[i].remove(x)
-					delete = true
+			for y in self.knoten[c[1]]:
+				if not c[2](x,y):
+					self.knoten[c[0]].remove(x)
+					delete = True
 		return delete
 					
 				
@@ -59,25 +59,28 @@ class CSP:
 		while q and consistent:
 			c = q.pop()
 			if self.revise(c):
-				q = q.union(c2 for c2 in self.constraints if c2[1] == c[0] and c2[0] != c[0] and c2[0] != c[1] and self.knotenAry.index(c2[0]) > cv
+				q = q.union(c2 for c2 in self.constraints if c2[1] == c[0] and c2[0] != c[0] and c2[0] != c[1] and self.knotenAry.index(c2[0]) > cv)
 				consistent = not (len(self.knoten[c[0]]) == 0)
 		return consistent
 		
 	def _solve(self, cv):
-		if len(self.knoten[self.knotenAry[cv]) == 0:	# aktuelle Domäne leer -> Backtracking
+		if len(self.knoten[self.knotenAry[cv]]) == 0:	# aktuelle Domäne leer -> Backtracking
 			return False
+		kopie = copy.deepcopy(self.knoten)
 		self.knoten[cv] = self.knoten[cv].pop()
 		if self.ac3_la(cv):
 			if cv == self.knoten.count-1:				# Gesamtes Netz erfüllt > Lösung gefunden
 				return True
 			if self._solve(cv+1):						# nächsten Knoten prüfen
 				return True
+		self.knoten = kopie
 		return self._solve(cv)
 
 	def solve(self):
+		print self.knoten
 		self.knotenAry = self.knoten.keys()
 		self.nc()
 		self.ac3()
-		if _solve(0):
+		if self._solve(0):
 			return self.knoten
 		return False
