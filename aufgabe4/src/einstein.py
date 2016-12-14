@@ -53,27 +53,6 @@ csp.addConstraint(('norweger','blau',nachbarn))			# 13. Der Norweger wohnt neben
 csp.addConstraint(('deutscher','rothmanns',gleich))		# 14. Der Deutsche raucht Rothmanns.
 csp.addConstraint(('malboro','wasser',nachbarn))		# 15. Der Malboro-Raucher hat einen Nachbarn, der Wasser trinkt.
 
-#~ ## unaer
-#~ csp.addConstraint(('milch', 'milch', mittelHaus))     #7
-#~ csp.addConstraint(('norweger', 'norweger', erstesHaus)) #9
-
-## binaer
-#~ csp.addConstraint(('brite', 'rot', gleich))           #1
-#~ csp.addConstraint(('schwede', 'hund', gleich))        #2
-#~ csp.addConstraint(('daene', 'tee', gleich))           #3
-#~ csp.addSgConstraint(('gruen', 'weiss', linksVon))          #4.1
-#~ csp.addSgConstraint(('weiss', 'gruen', rechtsVon))         #4.2
-#~ csp.addConstraint(('gruen', 'kaffee', gleich))        #5
-#~ csp.addConstraint(('pallmall', 'vogel', gleich))      #6
-#~ csp.addConstraint(('gelb', 'dunhill', gleich))        #8
-#~ csp.addConstraint(('winfield', 'bier', gleich))       #12
-#~ csp.addConstraint(('deutscher', 'rothmanns', gleich)) #14
-#~ csp.addConstraint(('malboro', 'katze', nachbarn))    #10
-#~ csp.addConstraint(('pferd', 'dunhill', nachbarn))     #11
-#~ csp.addConstraint(('norweger', 'blau', nachbarn))     #13
-#~ csp.addConstraint(('malboro', 'wasser', nachbarn))   #15
-
-
 csp.alleUngleich(nation)
 csp.alleUngleich(farbe)
 csp.alleUngleich(tier)
