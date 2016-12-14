@@ -3,9 +3,11 @@
 
 import CSP
 import math
+import pprint
 
 
-domain = [1,2,3,4,5]
+def domain():
+	return [1,2,3,4,5]
 
 csp = CSP.CSP()
 
@@ -20,18 +22,19 @@ getraenk = ['tee','kaffee','milch','bier','wasser']
 zigarette = ['pallmall','dunhill','malboro','winfield','rothmanns']
 
 for n,f,t,g,z in zip(nation,farbe,tier,getraenk,zigarette):
-	csp.addKnoten(n,domain)
-	csp.addKnoten(f,domain)
-	csp.addKnoten(t,domain)
-	csp.addKnoten(g,domain)
-	csp.addKnoten(z,domain)
+	csp.addKnoten(n,domain())
+	csp.addKnoten(f,domain())
+	csp.addKnoten(t,domain())
+	csp.addKnoten(g,domain())
+	csp.addKnoten(z,domain())
 
 gleich = lambda a, b: a == b
 mittelHaus = lambda a: a == 3
-nachbarn = lambda a, b: math.abs(a-b) == 1
-linksVon = lambda a, b: a < b
-rechtsVon = lambda a, b: a > b
+nachbarn = lambda a, b: math.fabs(a-b) == 1
+linksVon = lambda a, b: a < b and nachbarn(a,b)
+rechtsVon = lambda a, b: a > b and nachbarn(a,b)
 erstesHaus = lambda a: a == 1
+
 
 csp.addConstraint(('brite','rot',gleich))				# 1. Der Brite lebt im roten Haus.
 csp.addConstraint(('schwede','hund',gleich))			# 2. Der Schwede hält sich einen Hund.
@@ -50,6 +53,27 @@ csp.addConstraint(('norweger','blau',nachbarn))			# 13. Der Norweger wohnt neben
 csp.addConstraint(('deutscher','rothmanns',gleich))		# 14. Der Deutsche raucht Rothmanns.
 csp.addConstraint(('malboro','wasser',nachbarn))		# 15. Der Malboro-Raucher hat einen Nachbarn, der Wasser trinkt.
 
+#~ ## unaer
+#~ csp.addConstraint(('milch', 'milch', mittelHaus))     #7
+#~ csp.addConstraint(('norweger', 'norweger', erstesHaus)) #9
+
+## binaer
+#~ csp.addConstraint(('brite', 'rot', gleich))           #1
+#~ csp.addConstraint(('schwede', 'hund', gleich))        #2
+#~ csp.addConstraint(('daene', 'tee', gleich))           #3
+#~ csp.addSgConstraint(('gruen', 'weiss', linksVon))          #4.1
+#~ csp.addSgConstraint(('weiss', 'gruen', rechtsVon))         #4.2
+#~ csp.addConstraint(('gruen', 'kaffee', gleich))        #5
+#~ csp.addConstraint(('pallmall', 'vogel', gleich))      #6
+#~ csp.addConstraint(('gelb', 'dunhill', gleich))        #8
+#~ csp.addConstraint(('winfield', 'bier', gleich))       #12
+#~ csp.addConstraint(('deutscher', 'rothmanns', gleich)) #14
+#~ csp.addConstraint(('malboro', 'katze', nachbarn))    #10
+#~ csp.addConstraint(('pferd', 'dunhill', nachbarn))     #11
+#~ csp.addConstraint(('norweger', 'blau', nachbarn))     #13
+#~ csp.addConstraint(('malboro', 'wasser', nachbarn))   #15
+
+
 csp.alleUngleich(nation)
 csp.alleUngleich(farbe)
 csp.alleUngleich(tier)
@@ -60,6 +84,12 @@ csp.alleUngleich(zigarette)
 solution = csp.solve()
 
 if solution:
-	print csp.knoten
+	erg = {1: [], 2: [], 3: [], 4: [], 5: []}
+	for i, j in solution.items():
+		erg[j[0]].append(i)
+	pp = pprint.PrettyPrinter(indent=4)
+	pp.pprint(erg)
+	
 else:
 	print "Keine Loesung gefunden."
+
