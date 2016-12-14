@@ -41,7 +41,7 @@ csp.addConstraint(('gruen','kaffee',gleich)) 			# 5. Der Besitzer des grünen Ha
 csp.addConstraint(('pallmall','vogel',gleich))			# 6. Die Person, die Pall Mall raucht, hat einen Vogel.
 csp.addConstraint(('milch','milch',mittelHaus))			# 7. Der Mann im mittleren Haus trinkt Milch.
 csp.addConstraint(('gelb','dunhill',gleich))			# 8. Der Bewohner des gelben Hauses raucht Dunhill.
-csp.addConstraint(('norgweger','norweger',erstesHaus))	# 9. Der Norweger lebt im ersten Haus.
+csp.addConstraint(('norweger','norweger',erstesHaus))	# 9. Der Norweger lebt im ersten Haus.
 csp.addConstraint(('malboro','katze',nachbarn))			# 10. Der Malboro-Raucher wohnt neben der Person mit der Katze.
 csp.addConstraint(('pferd','dunhill',nachbarn))			# 11. Der Mann mit dem Pferd lebt neben der Person, die Dunhill raucht.
 csp.addConstraint(('winfield','bier',gleich))			# 12. Der Winfield-Raucher trinkt gern Bier.
@@ -49,20 +49,16 @@ csp.addConstraint(('norwerger','blau',nachbarn))		# 13. Der Norweger wohnt neben
 csp.addConstraint(('deutscher','rothmanns',gleich))		# 14. Der Deutsche raucht Rothmanns.
 csp.addConstraint(('malboro','wasser',nachbarn))		# 15. Der Malboro-Raucher hat einen Nachbarn, der Wasser trinkt.
 
-ungleich = lambda a, b: a != b
+csp.alleUngleich(nation)
+csp.alleUngleich(farbe)
+csp.alleUngleich(tier)
+csp.alleUngleich(getraenk)
+csp.alleUngleich(zigarette)
 
-def alleUngleich(liste):
-	for e1 in liste:
-		for e2 in liste:
-			if e1 != e2:
-				csp.addConstraint((e1,e2,ungleich))
-				
-alleUngleich(nation)
-alleUngleich(farbe)
-alleUngleich(tier)
-alleUngleich(getraenk)
-alleUngleich(zigarette)
 
 solution = csp.solve()
 
-print csp.knoten
+if solution:
+	print csp.knoten
+else:
+	print "Keine Loesung gefunden."
